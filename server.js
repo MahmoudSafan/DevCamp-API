@@ -13,6 +13,9 @@ const app = express();
 // connect to mongoose
 dbConnect();
 
+// use body parser
+app.use(express.json());
+
 // run logger only on development environment
 if (config.NODE_ENV === "development") {
 	app.use(morgan("dev"));
