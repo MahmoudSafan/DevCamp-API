@@ -6,6 +6,7 @@ const colors = require("colors");
 // import internal modules
 const dbConnect = require("./config/db.js");
 const config = require("./config/config.js");
+const { errorHandler } = require("./middleware/errorHandler.js");
 const api = require("./routs/routeNavigator.js");
 
 const app = express();
@@ -23,6 +24,9 @@ if (config.NODE_ENV === "development") {
 
 // configure routs
 app.use("/api/v1", api);
+
+// error handler middleware
+app.use(errorHandler);
 
 const server = app.listen(config.PORT, () => {
 	console.log(
