@@ -3,7 +3,6 @@ const ErrorResponse = require("../utils/ErrorResponse.js");
 const { asyncHandler } = require("../middleware/asyncHandler.js");
 const geocoder = require("../utils/GeoCoder.js");
 const { isNumberObject } = require("util/types");
-const { query } = require("express");
 
 // @desc		return all Bootcamps
 // @route		GET /bootcamps
