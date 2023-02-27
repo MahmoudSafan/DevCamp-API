@@ -20,7 +20,10 @@ const getAllBootcamps = asyncHandler(async (req, res, next) => {
 	);
 
 	let filter = JSON.parse(queryString);
-	let dbQuery = Bootcamp.find(filter);
+	let dbQuery = Bootcamp.find(filter).populate({
+		path: "courses",
+		select: "title weeks tuition",
+	});
 
 	// select which data will retrive from Bootcamp
 	if (req.query.select) {
@@ -117,11 +120,13 @@ const updateBootcamp = asyncHandler(async (req, res, next) => {
 // @route		DELETE /bootcamps/:id
 const deleteBootcamp = asyncHandler(async (req, res, next) => {
 	const id = req.params.id;
-
-	const bootcamp = await Bootcamp.findByIdAndDelete(id);
+	const bootcamp = await Bootcamp.findById(id);
 
 	if (!bootcamp)
 		return next(new ErrorResponse(`Bootcamp is not found with id: ${id}`, 404));
+
+	// remove bootcamp and hook pre remove function to delete associated courses
+	bootcamp.remove();
 
 	return res.status(200).json({
 		success: true,
