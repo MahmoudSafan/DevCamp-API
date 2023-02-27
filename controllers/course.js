@@ -65,8 +65,45 @@ const createCourse = asyncHandler(async (req, res, next) => {
 		data: course,
 	});
 });
+
+//@desc   update course
+//@routs  PUT /courses/:id
+const updateCourse = asyncHandler(async (req, res, next) => {
+	const { id } = req.params;
+	const course = await Course.findByIdAndUpdate(id, req.body, {
+		new: true,
+		runValidators: true,
+	});
+
+	if (!course)
+		return next(new ErrorResponse(`Course not found with id: ${id}`));
+
+	return res.status(200).json({
+		success: true,
+		data: course,
+	});
+});
+
+//@desc   delete course
+//@route  /courses/:id
+const deleteCourse = asyncHandler(async (req, res, next) => {
+	const { id } = req.params;
+	const course = await Course.findById(id);
+
+	if (!course)
+		return next(new ErrorResponse(`Course not found with id: ${id}`));
+
+	course.remove();
+
+	return res.status(200).json({
+		success: true,
+		data: {},
+	});
+});
 module.exports = {
 	getAllCourses,
 	getSingleCourse,
 	createCourse,
+	updateCourse,
+	deleteCourse,
 };
