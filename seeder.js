@@ -3,20 +3,23 @@ const fs = require("fs");
 
 const dbConnect = require("./config/db.js");
 const Bootcamp = require("./models/Bootcamp.js");
+const Course = require("./models/Course.js");
 
 // mongoose connect
 dbConnect();
 
-// load json Bootcamp data
+// load json data
 const bootcamps = JSON.parse(
 	fs.readFileSync(`${__dirname}/_data/bootcamps.json`)
 );
+const courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`));
 
-// import Bootcamps
+// import Date
 const importBootcamps = async () => {
 	try {
 		await Bootcamp.create(bootcamps);
-		console.log(`Bootcamps imported...`.bgGreen);
+		await Course.create(courses);
+		console.log(`Data imported...`.bgGreen);
 		process.exit(0); // to exit terminal afer log
 	} catch (error) {
 		console.error(`${error.message}`.bgRed);
@@ -24,11 +27,12 @@ const importBootcamps = async () => {
 	}
 };
 
-// remove Bootcamps
+// remove Date
 const removeBootcamps = async () => {
 	try {
 		await Bootcamp.deleteMany();
-		console.log(`Bootcamps removed...`.bgGreen);
+		await Course.deleteMany();
+		console.log(`Data removed...`.bgGreen);
 		process.exit(0);
 	} catch (error) {
 		console.error(`${error.message}`.bgRed);
