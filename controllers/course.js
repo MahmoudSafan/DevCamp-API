@@ -93,13 +93,14 @@ const deleteCourse = asyncHandler(async (req, res, next) => {
 	if (!course)
 		return next(new ErrorResponse(`Course not found with id: ${id}`));
 
-	course.remove();
+	await course.remove();
 
 	return res.status(200).json({
 		success: true,
 		data: {},
 	});
 });
+
 module.exports = {
 	getAllCourses,
 	getSingleCourse,

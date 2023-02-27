@@ -126,7 +126,7 @@ const deleteBootcamp = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse(`Bootcamp is not found with id: ${id}`, 404));
 
 	// remove bootcamp and hook pre remove function to delete associated courses
-	bootcamp.remove();
+	await bootcamp.remove();
 
 	return res.status(200).json({
 		success: true,
