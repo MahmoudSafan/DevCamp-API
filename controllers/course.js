@@ -8,25 +8,18 @@ const { asyncHandler } = require("../middleware/asyncHandler.js");
 // @routs   /courses
 const getAllCourses = asyncHandler(async (req, res, next) => {
 	const params = req.params;
-	let dbQuery;
 
+	// get courses in specific bootcamp
 	if (params.bootcampId) {
-		dbQuery = Course.find({ bootcamp: params.bootcampId });
-	} else {
-		dbQuery = Course.find().populate({
-			path: "bootcamp",
-			select: "name description location.formattedAddress",
+		const courses = await Course.find({ bootcamp: params.bootcampId });
+		return res.status(200).json({
+			success: true,
+			count: courses.length,
+			data: courses,
 		});
+	} else {
+		return res.status(200).json(res.advancedFilter);
 	}
-
-	// execute query
-	const courses = await dbQuery;
-
-	return res.status(200).json({
-		success: true,
-		count: courses.length,
-		data: courses,
-	});
 });
 
 // @desc    get single course
