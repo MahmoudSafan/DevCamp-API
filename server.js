@@ -1,6 +1,8 @@
 // import external lib
 const express = require("express");
+const path = require("path");
 const morgan = require("morgan");
+const fileUpload = require("express-fileupload");
 const colors = require("colors");
 
 // import internal modules
@@ -21,6 +23,12 @@ app.use(express.json());
 if (config.NODE_ENV === "development") {
 	app.use(morgan("dev"));
 }
+
+// serve static files
+app.use(express.static(path.join(__dirname, "public")));
+
+// uploading files
+app.use(fileUpload());
 
 // configure routs
 app.use("/api/v1", api);

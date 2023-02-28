@@ -1,4 +1,5 @@
 node_modules
 config/config.env
+public/uploads/*
 _data
 .DS_Store
