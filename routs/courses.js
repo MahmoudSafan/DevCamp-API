@@ -8,7 +8,7 @@ const {
 } = require("../controllers/course.js");
 
 const Course = require("../models/Course");
-//@desc		advancedFilter is middleware takes model and populate and do filter
+//@desc		advancedFilter is middleware takes {model and populate} and do filter
 const { advancedFilter } = require("../middleware/advancedFilter");
 
 // routs begin with api/v1/courses || api/bootcamps/:bootcampId/courses
