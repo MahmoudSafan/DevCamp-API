@@ -44,7 +44,7 @@ UserSchema.pre("save", async function () {
 	this.password = await bcrypt.hash(this.password, salt);
 });
 
-// return jwt
+// create and return jwt
 UserSchema.methods.getJwt = function () {
 	return jwt.sign({ id: this.id }, config.JWT_SECRET, {
 		expiresIn: config.JWT_EXPIRE_IN,
