@@ -2,20 +2,20 @@
 
 REST-APIs for a bootcamp directory website. to manage Users, Bootcamps, Reviews and courses.
 
-## Run seeder to export/remove json data to mongodb
+#### Run seeder to export/remove json data to mongodb
 
 ```bash
 node seeder.js -i
 node seeder.js -r
 ```
 
-## Run on development
+#### Run on development
 
 ```bash
 npm run dev
 ```
 
-## Run on production
+#### Run on production
 
 ```bash
 npm start
@@ -120,17 +120,6 @@ npm start
 - Use Postman to create documentation
 - Use docgen to create HTML files from Postman
 - Add html files as the / route for the api
-
-## Deployment (Digital Ocean)
-
-- Push to Github
-- Create a droplet - https://m.do.co/c/5424d440c63a
-- Clone repo on to server
-- Use PM2 process manager
-- Enable firewall (ufw) and open needed ports
-- Create an NGINX reverse proxy for port 80
-- Connect a domain name
-- Install an SSL using Let's Encrypt
 
 ## Scripts and Middlewares
 
