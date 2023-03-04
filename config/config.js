@@ -7,4 +7,6 @@ module.exports = {
 	DB_URL: process.env.DB_URL,
 	GEOCODER_PROVIDER: process.env.GEOCODER_PROVIDER,
 	GEOCODER_APIKEY: process.env.GEOCODER_APIKEY,
+	JWT_SECRET: process.env.JWT_SECRET,
+	JWT_EXPIRE_IN: process.env.JWT_EXPIRE_IN,
 };
