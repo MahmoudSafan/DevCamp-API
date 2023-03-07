@@ -1,17 +1,16 @@
 const User = require("../models/User.js");
 const ErrorResponse = require("../utils/ErrorResponse.js");
 const { asyncHandler } = require("../middleware/asyncHandler.js");
+const { sendTokenResponse } = require("../utils/sendTokenResponse.js");
 
 // @desc    register new users
 // @routs   POST /register
 // @access  public
 exports.register = asyncHandler(async (req, res, next) => {
 	const user = await User.create(req.body);
-	const token = user.getJwt();
-	res.status(201).json({
-		success: true,
-		token,
-	});
+
+	//send token
+	sendTokenResponse(res, 201, user);
 });
 
 // @desc    login users
@@ -30,10 +29,18 @@ exports.login = asyncHandler(async (req, res, next) => {
 	const isMatch = await user.matchPassword(password);
 	if (!isMatch) return next(new ErrorResponse("Invalid credentials", 401));
 
-	//create token
-	const token = user.getJwt();
-	res.status(200).json({
+	//send token
+	sendTokenResponse(res, 200, user);
+});
+
+// @desc    get profile
+// @routs   get /profile
+// @access  private
+exports.getProfile = asyncHandler(async (req, res, next) => {
+	const id = req.user.id;
+	const user = await User.findById(id);
+	return res.status(200).json({
 		success: true,
-		token,
+		data: user,
 	});
 });
