@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const Bootcamp = require("../models/Bootcamp");
 const {
 	getAllBootcamps,
 	getSingleBootcamp,
@@ -9,9 +10,9 @@ const {
 	uploadBootcampPhoto,
 } = require("../controllers/bootcamps.js");
 
-const Bootcamp = require("../models/Bootcamp");
-//@desc		advancedFilter is middleware takes model and populate and do filter
+//@desc		advancedFilter is middleware takes model and populate model to advanc filter
 const { advancedFilter } = require("../middleware/advancedFilter");
+const { auth } = require("../middleware/auth.js");
 
 router.route("/location/:zipcode/:distance").get(getBootcampByRadius);
 
@@ -26,12 +27,12 @@ router
 		}),
 		getAllBootcamps
 	)
-	.post(createBootcamp);
+	.post(auth, createBootcamp);
 
 router
 	.route("/:id")
 	.get(getSingleBootcamp)
-	.put(updateBootcamp)
-	.delete(deleteBootcamp);
+	.put(auth, updateBootcamp)
+	.delete(auth, deleteBootcamp);
 
 module.exports = router;
