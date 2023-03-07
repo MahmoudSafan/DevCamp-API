@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
 const fileUpload = require("express-fileupload");
+const cookieParser = require("cookie-parser");
 const colors = require("colors");
 
 // import internal modules
@@ -18,6 +19,9 @@ dbConnect();
 
 // use body parser
 app.use(express.json());
+
+// use cookie parser
+app.use(cookieParser());
 
 // run logger only on development environment
 if (config.NODE_ENV === "development") {
