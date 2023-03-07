@@ -9,4 +9,5 @@ module.exports = {
 	GEOCODER_APIKEY: process.env.GEOCODER_APIKEY,
 	JWT_SECRET: process.env.JWT_SECRET,
 	JWT_EXPIRE_IN: process.env.JWT_EXPIRE_IN,
+	COOKIES_EXPIRE_IN: process.env.COOKIES_EXPIRE_IN,
 };
