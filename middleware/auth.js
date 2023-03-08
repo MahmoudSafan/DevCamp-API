@@ -25,3 +25,11 @@ exports.auth = asyncHandler(async (req, res, next) => {
 		return next(new ErrorResponse("Not Authorized", 401));
 	}
 });
+
+exports.accessRole = (...roles) => {
+	return (req, res, next) => {
+		if (!roles.includes(req.user.role))
+			next(new ErrorResponse("Not Authorized to access this resource", 403));
+		next();
+	};
+};

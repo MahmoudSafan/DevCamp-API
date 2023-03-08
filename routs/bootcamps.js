@@ -12,7 +12,7 @@ const {
 
 //@desc		advancedFilter is middleware takes model and populate model to advanc filter
 const { advancedFilter } = require("../middleware/advancedFilter");
-const { auth } = require("../middleware/auth.js");
+const { auth, accessRole } = require("../middleware/auth.js");
 
 router.route("/location/:zipcode/:distance").get(getBootcampByRadius);
 
@@ -27,12 +27,12 @@ router
 		}),
 		getAllBootcamps
 	)
-	.post(auth, createBootcamp);
+	.post(auth, accessRole("admin", "publisher"), createBootcamp);
 
 router
 	.route("/:id")
 	.get(getSingleBootcamp)
-	.put(auth, updateBootcamp)
-	.delete(auth, deleteBootcamp);
+	.put(auth, accessRole("admin", "publisher"), updateBootcamp)
+	.delete(auth, accessRole("admin", "publisher"), deleteBootcamp);
 
 module.exports = router;
