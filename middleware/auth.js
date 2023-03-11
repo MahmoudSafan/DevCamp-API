@@ -4,6 +4,7 @@ const config = require("../config/config.js");
 const { asyncHandler } = require("./asyncHandler.js");
 const ErrorResponse = require("../utils/ErrorResponse.js");
 
+// @desc		auth middleware to verify token and get token's user
 exports.auth = asyncHandler(async (req, res, next) => {
 	const { authorization } = req.headers;
 	const cookie = req.cookies.token;
