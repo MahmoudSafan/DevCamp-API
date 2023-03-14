@@ -16,7 +16,9 @@ const { auth, accessRole } = require("../middleware/auth.js");
 
 router.route("/location/:zipcode/:distance").get(getBootcampByRadius);
 
-router.route("/:id/photos").put(uploadBootcampPhoto);
+router
+	.route("/:id/photos")
+	.put(auth, accessRole("admin", "publisher"), uploadBootcampPhoto);
 
 router
 	.route("/")
