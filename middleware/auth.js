@@ -27,6 +27,7 @@ exports.auth = asyncHandler(async (req, res, next) => {
 	}
 });
 
+// @desc	  accessRole middleware to check roles authorize
 exports.accessRole = (...roles) => {
 	return (req, res, next) => {
 		if (!roles.includes(req.user.role))
