@@ -50,13 +50,24 @@ const createBootcamp = asyncHandler(async (req, res, next) => {
 const updateBootcamp = asyncHandler(async (req, res, next) => {
 	const id = req.params.id;
 
-	const bootcamp = await Bootcamp.findByIdAndUpdate(id, req.body, {
-		new: true,
-		runValidators: true,
-	});
+	// find bootcamp
+	let bootcamp = await Bootcamp.findById(id);
 
 	if (!bootcamp)
 		return next(new ErrorResponse(`Bootcamp is not found with id: ${id}`, 404));
+
+	// check if user is owner or he's an admin or not
+	if (bootcamp.user.toString() !== req.user.id && req.user.role !== "admin") {
+		return next(
+			new ErrorResponse(`You are unauthorized to update this bootcamp`, 403)
+		);
+	}
+
+	// update bootcamp
+	bootcamp = await Bootcamp.findByIdAndUpdate(id, req.body, {
+		new: true,
+		runValidators: true,
+	});
 
 	return res.status(200).json({
 		success: true,
@@ -68,10 +79,19 @@ const updateBootcamp = asyncHandler(async (req, res, next) => {
 // @route		DELETE /bootcamps/:id
 const deleteBootcamp = asyncHandler(async (req, res, next) => {
 	const id = req.params.id;
+
+	//find bootcamp
 	const bootcamp = await Bootcamp.findById(id);
 
 	if (!bootcamp)
 		return next(new ErrorResponse(`Bootcamp is not found with id: ${id}`, 404));
+
+	// check if user is owner or he's an admin or not
+	if (bootcamp.user.toString() !== req.user.id && req.user.role !== "admin") {
+		return next(
+			new ErrorResponse(`You are unauthorized to delete this bootcamp`, 403)
+		);
+	}
 
 	// remove bootcamp and hook pre remove function to delete associated courses
 	await bootcamp.remove();
@@ -117,11 +137,21 @@ const getBootcampByRadius = asyncHandler(async (req, res, next) => {
 const uploadBootcampPhoto = asyncHandler(async (req, res, next) => {
 	const { id } = req.params;
 	let image = req.files.file;
+
+	// find bootcamp
 	const bootcamp = await Bootcamp.findById(id);
 
 	if (!bootcamp) {
 		return next(new ErrorResponse(`Bootcamp not found with id: ${id}`, 400));
 	}
+
+	// check if user is owner or he's an admin or not
+	if (bootcamp.user.toString() !== req.user.id && req.user.role !== "admin") {
+		return next(
+			new ErrorResponse(`You are unauthorized to update this bootcamp`, 403)
+		);
+	}
+
 	if (!image) {
 		return next(new ErrorResponse(`Please upload a photo`, 400));
 	}
