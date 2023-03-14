@@ -33,8 +33,9 @@ const createBootcamp = asyncHandler(async (req, res, next) => {
 	req.body.user = req.user.id;
 
 	// put constrain --> only admin can publish more than one bootcamp
-	const publishedBootcamps = await Bootcamp.find({ user: req.body.user });
-	if (publishedBootcamps && req.user.role !== "admin") {
+	const publishedBootcamps = await Bootcamp.find({ user: req.user.id });
+	console.log(publishedBootcamps);
+	if (publishedBootcamps.length > 0 && req.user.role !== "admin") {
 		return next(new ErrorResponse(`You have already published bootcamp`, 400));
 	}
 
