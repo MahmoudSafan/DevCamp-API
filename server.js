@@ -46,8 +46,8 @@ const server = app.listen(config.PORT, () => {
 	);
 });
 
-// catch unhandled Rejection
-process.on("unhandledRejection", (err, promise) => {
+// catch uncaught exception
+process.on("uncaughtException", (err, promise) => {
 	console.log(`${err.message}`.bgRed);
 
 	//close server
