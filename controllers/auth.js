@@ -115,3 +115,40 @@ exports.restPassword = asyncHandler(async (req, res, next) => {
 
 	sendTokenResponse(res, 200, user);
 });
+
+// @desc		update profile
+// @routs		PUT /profile
+// @access		private
+exports.updateProfile = asyncHandler(async (req, res, next) => {
+	const { id } = req.user;
+	const updateFields = {
+		name: req.body.name || req.user.name,
+		email: req.body.email || req.user.email,
+	};
+	const user = await User.findByIdAndUpdate(id, updateFields, {
+		returnOriginal: false,
+		new: true,
+		runValidators: true,
+	});
+	return res.status(200).json({ success: true, data: user });
+});
+
+// @desc		update password
+// @routs		PUT /update-password
+// @access		private
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+	const { id } = req.user;
+	const { currentPassword, newPassword } = req.body;
+
+	if (!currentPassword || !newPassword)
+		return next(new ErrorResponse("password is required", 400));
+
+	const user = await User.findById(id).select("+password");
+	if (!(await user.matchPassword(currentPassword)))
+		return next(new ErrorResponse("password is not match", 400));
+
+	user.password = newPassword;
+	await user.save();
+
+	sendTokenResponse(res, 200, user);
+});
