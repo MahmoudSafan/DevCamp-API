@@ -59,3 +59,32 @@ exports.createReview = asyncHandler(async (req, res, next) => {
 		data: review,
 	});
 });
+
+// @desc    update review
+// @routs   PUT /reviews/:reviewId
+exports.updateReview = asyncHandler(async (req, res, next) => {
+	const { id } = req.params;
+	let review = await Review.findById(id);
+	if (!review)
+		return next(new ErrorResponse(`Review is not found with id: ${id}`, 404));
+
+	// check if user is owner or he's an admin or not
+	if (review.user.toString() !== req.user.id && req.user.role !== "admin") {
+		return next(
+			new ErrorResponse(`You are not authorized to update this review`, 401)
+		);
+	}
+
+	const updatedData = {
+		title: req.body.title || review.title,
+		text: req.body.text || review.text,
+	};
+
+	review.title = updatedData.title;
+	review.text = updatedData.text;
+	review = await review.save();
+	res.status(200).json({
+		success: true,
+		data: review,
+	});
+});
