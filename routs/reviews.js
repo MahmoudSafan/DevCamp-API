@@ -4,6 +4,7 @@ const {
 	getAllReviews,
 	getSingleReview,
 	createReview,
+	updateReview,
 } = require("../controllers/reviews.js");
 
 //@desc		advancedFilter is middleware takes {model and populate} and do filter
@@ -22,5 +23,9 @@ router
 	)
 	.post(auth, accessRole("admin", "user"), createReview);
 
-router.route("/:id").get(getSingleReview);
+router
+	.route("/:id")
+	.get(getSingleReview)
+	.put(auth, accessRole("admin", "user"), updateReview);
+
 module.exports = router;
