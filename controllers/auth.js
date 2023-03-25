@@ -126,7 +126,6 @@ exports.updateProfile = asyncHandler(async (req, res, next) => {
 		email: req.body.email || req.user.email,
 	};
 	const user = await User.findByIdAndUpdate(id, updateFields, {
-		returnOriginal: false,
 		new: true,
 		runValidators: true,
 	});
