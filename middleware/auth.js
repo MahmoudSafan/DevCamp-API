@@ -17,7 +17,7 @@ exports.auth = asyncHandler(async (req, res, next) => {
 		token = cookie;
 	}
 
-	if (!token) return next(new ErrorResponse("Not Authorized", 401));
+	if (!token) return next(new ErrorResponse("You are not authorized", 401));
 
 	try {
 		// verify and decode token
@@ -26,7 +26,7 @@ exports.auth = asyncHandler(async (req, res, next) => {
 		req.user = user;
 		next();
 	} catch (error) {
-		return next(new ErrorResponse("Not Authorized", 401));
+		return next(new ErrorResponse("You are not authorized", 401));
 	}
 });
 
