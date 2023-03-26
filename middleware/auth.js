@@ -11,8 +11,11 @@ exports.auth = asyncHandler(async (req, res, next) => {
 	let token;
 
 	// check if Authorization header and token exists
-	if (authorization && authorization.startsWith("Bearer"))
+	if (authorization && authorization.startsWith("Bearer")) {
 		token = authorization.split(" ")[1];
+	} else if (cookie) {
+		token = cookie;
+	}
 
 	if (!token) return next(new ErrorResponse("Not Authorized", 401));
 
