@@ -4,7 +4,9 @@ const path = require("path");
 const morgan = require("morgan");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
-const expressMongoSanitize = require("express-mongo-sanitize");
+const sanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const xss = require("xss-clean");
 const colors = require("colors");
 
 // import internal modules
@@ -35,8 +37,10 @@ app.use(express.static(path.join(__dirname, "public")));
 // uploading files
 app.use(fileUpload());
 
-// sanitize data
-app.use(expressMongoSanitize());
+// sanitize requestes & set security headers & prevent xss
+app.use(sanitize());
+app.use(xss());
+app.use(helmet());
 
 // configure routs
 app.use("/api/v1", api);
