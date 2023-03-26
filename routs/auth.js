@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
 	register,
 	login,
+	logout,
 	getProfile,
 	forgotPassword,
 	restPassword,
@@ -11,6 +12,7 @@ const {
 const { auth } = require("../middleware/auth.js");
 
 router.post("/login", login);
+router.get("/logout", auth, logout);
 router.post("/register", register);
 router.get("/profile", auth, getProfile);
 router.post("/forgot-password", forgotPassword);

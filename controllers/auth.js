@@ -151,3 +151,15 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 
 	sendTokenResponse(res, 200, user);
 });
+
+// @desc		logout user
+// @routs		GET /logout
+// @access		private
+exports.logout = asyncHandler(async (req, res, next) => {
+	res.cookie("token", "none", {
+		expires: new Date(Date.now() + 2 * 1000),
+		httpOnly: true,
+	});
+
+	return res.status(200).json({ success: true, data: {} });
+});
