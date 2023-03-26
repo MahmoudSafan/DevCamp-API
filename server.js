@@ -4,6 +4,7 @@ const path = require("path");
 const morgan = require("morgan");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
+const expressMongoSanitize = require("express-mongo-sanitize");
 const colors = require("colors");
 
 // import internal modules
@@ -33,6 +34,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // uploading files
 app.use(fileUpload());
+
+// sanitize data
+app.use(expressMongoSanitize());
 
 // configure routs
 app.use("/api/v1", api);
