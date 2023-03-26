@@ -26,6 +26,12 @@ module.exports.errorHandler = (err, req, res, next) => {
 		error.statusCode = 400;
 	}
 
+	// mongoose validation error
+	if (err.name === "CastError") {
+		error.message = `${err.path} is not valid`;
+		error.statusCode = 400;
+	}
+
 	res.status(error.statusCode || 500).json({
 		sucess: false,
 		message: error.message || "Internal Server Error",
