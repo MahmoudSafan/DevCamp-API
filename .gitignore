@@ -3,3 +3,4 @@ config/config.env
 public/uploads/*
 _data
 .DS_Store
+public/index.html
