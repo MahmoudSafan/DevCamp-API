@@ -2,4 +2,5 @@ node_modules
 config/config.env
 _data
 .DS_Store
-public/
+public/index.html
+public/uploads/*
