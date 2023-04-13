@@ -49,7 +49,7 @@ app.use(hpp());
 
 // rate limit
 const limiter = rateLimit({
-	windowMs: 10 * 60 * 1000, // 15 minutes
+	windowMs: 10 * 60 * 1000, // 10 minutes
 	max: 100,
 	standardHeaders: false, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
