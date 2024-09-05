@@ -21,6 +21,16 @@ npm run dev
 npm start
 ```
 
+#### lift on ship (docker)
+
+```bash
+docker build -t devcamp-api .
+```
+
+```bash
+docker run -p 3000:3000 devcamp-api
+```
+
 ### Bootcamps
 
 - List all bootcamps in the database
